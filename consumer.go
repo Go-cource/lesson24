@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"time"
 
 	"github.com/segmentio/kafka-go"
 )
@@ -20,7 +19,7 @@ func readMsg(ctx context.Context, r *kafka.Reader) {
 		msg, err := r.ReadMessage(ctx)
 		if err != nil {
 			fmt.Println(err)
-			continue
+			return
 		}
 		fmt.Printf("I got message: %s:%s (topic: %v, partition: %v, offset: %v)\n", string(msg.Key), string(msg.Value), msg.Topic, msg.Partition, msg.Offset)
 
@@ -37,7 +36,7 @@ func main() {
 
 	log.Println("Consumer connected...")
 
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	readMsg(ctx, r)
 }

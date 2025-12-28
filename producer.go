@@ -26,7 +26,7 @@ func sendMsgToKafka(w *kafka.Writer, messages []string) {
 
 		err := w.WriteMessages(ctx, oneMessage)
 		if err != nil {
-			fmt.Println("Error with kafka writer")
+			fmt.Println("Error with kafka writer: ", err)
 		} else {
 			fmt.Printf("Message #%d sended to kafka\n", i+1)
 		}
